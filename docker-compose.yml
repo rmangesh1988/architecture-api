@@ -1,0 +1,13 @@
+version: '3.1'
+services:
+  assessment-mysql-db:
+    image: 'mysql:8.0'
+    container_name: 'mysql-2'
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: 'always'
+    environment:
+      MYSQL_DATABASE: 'architecture_datastore'
+      MYSQL_USER: 'db_user'
+      MYSQL_PASSWORD: '8b3b91c7'
+    ports:
+      - '3306:3306'

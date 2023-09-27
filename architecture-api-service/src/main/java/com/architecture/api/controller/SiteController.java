@@ -25,6 +25,6 @@ public class SiteController {
     public ResponseEntity<Site> ingestSiteData(@RequestBody GeoJsonDTO geoJsonDTO, @RequestParam(name = "siteId", required = false) Long siteId, @RequestParam(name = "version", required = false) Integer version) {
         var site = siteBuildingLimitSplittingService.splitBuildingLimitsOnTheSite(geoJsonDTO, siteId, version);
         siteDataService.saveSiteData(site);
-        return ResponseEntity.ok(site);
+        return ResponseEntity.ok(siteDataService.fetchSite(site.getId()));
     }
 }

@@ -10,6 +10,8 @@ import com.architecture.api.repository.SplitBuildingLimitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import static com.architecture.api.exception.Errors.CONCURRENT_DATA_MODIFICATION_EXCEPTION;
@@ -29,6 +31,8 @@ public class SiteDataService {
 
     private final CoordinateRepository coordinateRepository;
 
+    private final EntityManager entityManager;
+
     public Site saveSiteData(Site site) {
         if (isNewSite(site)) {
             return siteRepository.save(site);
@@ -44,6 +48,11 @@ public class SiteDataService {
             }
             return siteData;
         }
+    }
+
+    public Site fetchSite(Long id) {
+        entityManager.clear();
+        return siteRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Site entity with id "+ id + " not found!"));
     }
 
     private void addNewSiteData(Site site, Site siteData) {
